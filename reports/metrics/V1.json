@@ -1,0 +1,202 @@
+{
+  "task_id": "V1",
+  "problem": "vendor",
+  "type": "regression",
+  "business_question": "What should this truck movement cost, given only the lane and the load?",
+  "target": "freight (₹ per shipment; models trained on log1p)",
+  "grain": "shipment",
+  "train_period": "2025-04-01 to 2025-12-31",
+  "test_period": "2026-01-01 to 2026-03-31",
+  "n_train": 128938,
+  "n_test": 37515,
+  "base_rate_or_baseline": {
+    "metric": "training median ₹/km × distance (MAE)",
+    "value": 10630.66,
+    "all_metrics": {
+      "MAE": 10630.66,
+      "RMSE": 18376.48,
+      "MAPE": 51.1,
+      "R2": 0.8601
+    },
+    "median_rs_per_km": 92.60130718954248
+  },
+  "features": [
+    "vehicle_type",
+    "truck_load",
+    "zone",
+    "state_destination",
+    "origin_plant",
+    "route",
+    "destination_point",
+    "shipment_type",
+    "inco_terms",
+    "distance",
+    "total_qty",
+    "vehicle_capacity",
+    "n_lrs",
+    "n_routes",
+    "month",
+    "weekday"
+  ],
+  "excluded_for_leakage": [
+    "r2_freight",
+    "gta_invoice_value",
+    "margin",
+    "margin_pct",
+    "transport_charges_paid",
+    "total_transport_charges",
+    "other_charges",
+    "liability_amount",
+    "liability_amount_as_on_date",
+    "b2b_billing",
+    "shipment_cost_no",
+    "shipment_cost",
+    "condition_flow",
+    "reporting_number",
+    "rp5_shipment",
+    "billing_document_date",
+    "billed_qty",
+    "billing_qty_in_mt",
+    "ftl_value",
+    "propotionate_ftl_value",
+    "delivery_id",
+    "shipment_no",
+    "container_id",
+    "vendor (deliberately excluded: vendor effect is read from the residual)"
+  ],
+  "models": [
+    {
+      "name": "Ridge",
+      "metrics": {
+        "MAE": 9825.0,
+        "RMSE": 21686.0,
+        "MAPE": 24.9,
+        "R2": 0.8051
+      },
+      "fit_seconds": 0.6
+    },
+    {
+      "name": "RandomForest",
+      "metrics": {
+        "MAE": 2695.93,
+        "RMSE": 6691.31,
+        "MAPE": 11.29,
+        "R2": 0.9814
+      },
+      "fit_seconds": 5.2
+    },
+    {
+      "name": "LightGBM",
+      "metrics": {
+        "MAE": 2730.4,
+        "RMSE": 6621.79,
+        "MAPE": 11.63,
+        "R2": 0.9818
+      },
+      "fit_seconds": 5.0
+    }
+  ],
+  "winner": "RandomForest",
+  "winner_reason": "RandomForest chosen on MAE (₹2,696). Models within 2% of the best MAE: ['RandomForest', 'LightGBM']; when several are within 2% the simplest is preferred.",
+  "threshold": null,
+  "top_drivers": [
+    {
+      "feature": "distance",
+      "mean_abs_shap": 0.6412,
+      "plain_english": "Higher distance raises the predicted fair freight (log ₹)."
+    },
+    {
+      "feature": "total_qty",
+      "mean_abs_shap": 0.35489,
+      "plain_english": "Higher total_qty raises the predicted fair freight (log ₹)."
+    },
+    {
+      "feature": "vehicle_capacity",
+      "mean_abs_shap": 0.12978,
+      "plain_english": "Higher vehicle_capacity raises the predicted fair freight (log ₹)."
+    },
+    {
+      "feature": "zone",
+      "mean_abs_shap": 0.07299,
+      "plain_english": "zone: the biggest push toward fair freight (log ₹) comes from 'SOUTH', the biggest push away from it from 'WEST'."
+    },
+    {
+      "feature": "state_destination",
+      "mean_abs_shap": 0.05515,
+      "plain_english": "state_destination: the biggest push toward fair freight (log ₹) comes from 'TN', the biggest push away from it from 'DN'."
+    }
+  ],
+  "business_impact_inputs": {
+    "label": "indicative",
+    "test_total_freight_rs": 1399865021.95,
+    "test_excess_over_fair_rs": 39682311.855734155,
+    "annualised_excess_rs_x4": 158729247.42293662,
+    "interval_80pct_coverage": 0.7837398373983739,
+    "interval_coverage_before_calibration": 0.672557643609223,
+    "conformal": {
+      "Q": 0.020526102658855905,
+      "n_cal": 40946,
+      "target_coverage": 0.8,
+      "val_coverage_raw": 0.6480242270307234,
+      "test_coverage_raw": 0.672557643609223,
+      "test_coverage_calibrated": 0.7837398373983739,
+      "test_mean_width_raw": 18629.79370844057,
+      "test_mean_width_calibrated": 19323.8462161095
+    },
+    "interval_by_total_qty_band": [
+      {
+        "band_MT": "<5",
+        "n_test": 1001,
+        "n_calibration": 1311,
+        "Q_log_scale": 0.2470759779478744,
+        "coverage_global_Q": 0.6933066933066933,
+        "coverage_per_band_Q": 0.7832167832167832,
+        "median_width_rs_global_Q": 1697.2520971731742,
+        "median_width_rs_per_band_Q": 3400.250144871413,
+        "median_width_pct_of_forecast_per_band_Q": 97.9227733989798
+      },
+      {
+        "band_MT": "5-15",
+        "n_test": 17414,
+        "n_calibration": 20372,
+        "Q_log_scale": 0.043343979981967706,
+        "coverage_global_Q": 0.7403238773400712,
+        "coverage_per_band_Q": 0.7895945790743081,
+        "median_width_rs_global_Q": 1384.562836750034,
+        "median_width_rs_per_band_Q": 1543.253640741667,
+        "median_width_pct_of_forecast_per_band_Q": 24.1701971687694
+      },
+      {
+        "band_MT": "15-25",
+        "n_test": 9268,
+        "n_calibration": 10581,
+        "Q_log_scale": 0.008681896372353393,
+        "coverage_global_Q": 0.7910012947777298,
+        "coverage_per_band_Q": 0.7440656020716444,
+        "median_width_rs_global_Q": 5632.484763001863,
+        "median_width_rs_per_band_Q": 5089.352862555242,
+        "median_width_pct_of_forecast_per_band_Q": 27.306399995864517
+      },
+      {
+        "band_MT": ">25",
+        "n_test": 9832,
+        "n_calibration": 8682,
+        "Q_log_scale": 0.0033556261641685126,
+        "coverage_global_Q": 0.8863913751017087,
+        "coverage_per_band_Q": 0.8108218063466233,
+        "median_width_rs_global_Q": 46906.69982042421,
+        "median_width_rs_per_band_Q": 44568.95898589397,
+        "median_width_pct_of_forecast_per_band_Q": 53.2461470352896
+      }
+    ],
+    "vendors": 109
+  },
+  "caveats": [
+    "560 exact duplicate rows (all 69 columns equal; ₹1.1 Cr of freight, 322 shipments) were dropped before modelling; see data/processed/audit_duplicate_rows.csv.",
+    "The 'fair price' is the market median for this lane profile in this vendor pool; it is not the vendor's true cost.",
+    "RandomForest is fitted on a 50,000-row training sample; Ridge and LightGBM use all training rows.",
+    "Hyper-parameters are fixed defaults (no search).",
+    "pi_low/pi_high: LightGBM quantiles (0.1/0.9) calibrated by split-conformal (CQR) on the Oct-Dec 2025 validation slice, with a separate correction per total_qty band (<5, 5-15, 15-25, >25 MT; global Q = 0.021 on the log scale); test coverage of the nominal 80% interval is 78.4% (raw quantiles: 67.3%). Coverage is only guaranteed if test data behave like the validation slice.",
+    "One client sector (polyester), one year of data, anonymised vendors."
+  ]
+}

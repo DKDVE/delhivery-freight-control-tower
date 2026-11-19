@@ -1,0 +1,1 @@
+import{j as t,C as e,t as o,L as n}from"./index-FjkYAPKS.js";function s(){return t.jsx(e,{children:t.jsx(o,{title:"Page not found",hint:"Check the address, or go back to the overview.",action:t.jsx(n,{className:"font-semibold text-navy underline",to:"/",children:"Go to Overview"})})})}export{s as default};

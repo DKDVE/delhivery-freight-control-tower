@@ -1,0 +1,149 @@
+{
+  "task_id": "M2",
+  "problem": "middle_mile",
+  "type": "classification",
+  "business_question": "Which trips will be severely late (actual / planned >= 2.5)?",
+  "target": "actual_min / osrm_time_total >= 2.5",
+  "grain": "trip",
+  "train_period": "trips created 2018-09-12 to 2018-09-26",
+  "test_period": "trips created 2018-09-27 to 2018-10-03",
+  "n_train": 10654,
+  "n_test": 4163,
+  "base_rate_or_baseline": {
+    "metric": "PR-AUC of constant base rate (= test prevalence)",
+    "value": 0.3296,
+    "train_base_rate": 0.3184
+  },
+  "extra_baselines": [
+    {
+      "name": "Lookup: severe-overrun rate by route_schedule_uuid, fitted on TRAIN trips only (<5 trips -> train base rate)",
+      "PR_AUC": 0.7098,
+      "test_trips_with_schedule_seen_in_train": 3853
+    }
+  ],
+  "features": [
+    "route_type",
+    "first_source_center",
+    "last_destination_center",
+    "corridor",
+    "route_schedule_uuid",
+    "osrm_time_total",
+    "osrm_distance_total",
+    "n_legs",
+    "creation_hour",
+    "creation_weekday"
+  ],
+  "excluded_for_leakage": [
+    "actual_time",
+    "segment_actual_time",
+    "actual_distance_to_destination",
+    "factor",
+    "segment_factor",
+    "start_scan_to_end_scan",
+    "od_end_time",
+    "cutoff_factor",
+    "cutoff_timestamp",
+    "is_cutoff"
+  ],
+  "models": [
+    {
+      "name": "Logistic",
+      "metrics": {
+        "PR_AUC": 0.6304,
+        "ROC_AUC": 0.7862,
+        "precision": 0.6068,
+        "recall": 0.5758,
+        "F1": 0.5909,
+        "threshold": 0.6148,
+        "val_precision_at_thr": 0.6,
+        "val_recall_at_thr": 0.5241
+      },
+      "fit_seconds": 0.1
+    },
+    {
+      "name": "RandomForest",
+      "metrics": {
+        "PR_AUC": 0.7521,
+        "ROC_AUC": 0.8526,
+        "precision": 0.6041,
+        "recall": 0.7864,
+        "F1": 0.6833,
+        "threshold": 0.4227,
+        "val_precision_at_thr": 0.6001,
+        "val_recall_at_thr": 0.747
+      },
+      "fit_seconds": 0.9
+    },
+    {
+      "name": "LightGBM",
+      "metrics": {
+        "PR_AUC": 0.7574,
+        "ROC_AUC": 0.8526,
+        "precision": 0.6087,
+        "recall": 0.7813,
+        "F1": 0.6843,
+        "threshold": 0.4709,
+        "val_precision_at_thr": 0.6,
+        "val_recall_at_thr": 0.7297
+      },
+      "fit_seconds": 0.6
+    }
+  ],
+  "winner": "RandomForest",
+  "winner_reason": "RandomForest chosen on PR-AUC (0.7521); models within 2% of the best: ['RandomForest', 'LightGBM'] (simplest preferred).",
+  "threshold": 0.4226844810740814,
+  "threshold_rule": "recall-max with val precision>=0.60",
+  "top_drivers": [
+    {
+      "feature": "osrm_time_total",
+      "mean_abs_shap": 0.08104,
+      "plain_english": "Higher osrm_time_total lowers the predicted severe-overrun risk."
+    },
+    {
+      "feature": "creation_hour",
+      "mean_abs_shap": 0.0593,
+      "plain_english": "Higher creation_hour lowers the predicted severe-overrun risk."
+    },
+    {
+      "feature": "corridor",
+      "mean_abs_shap": 0.0506,
+      "plain_english": "corridor: the biggest push toward severe-overrun risk comes from 'Maharashtra -> Maharashtra', the biggest push away from it from 'Gujarat -> Gujarat'."
+    },
+    {
+      "feature": "first_source_center",
+      "mean_abs_shap": 0.05042,
+      "plain_english": "first_source_center: the biggest push toward severe-overrun risk comes from 'IND421302AAG', the biggest push away from it from 'IND000000ACB'."
+    },
+    {
+      "feature": "osrm_distance_total",
+      "mean_abs_shap": 0.04347,
+      "plain_english": "Higher osrm_distance_total lowers the predicted severe-overrun risk."
+    }
+  ],
+  "business_impact_inputs": {
+    "label": "test period; rates are sourced synthetic",
+    "flagged": 1786,
+    "true_positives": 1079,
+    "actual_severe_trips": 1372,
+    "excess_hours_on_true_positives": 3346.383333333333,
+    "Rs_on_true_positives": {
+      "base": 1064973.25,
+      "conservative": 903758.3333333334,
+      "optimistic": 1226188.1666666665
+    }
+  },
+  "overrun_share_table": {
+    "share_pct": {
+      "1.5x": 88.8,
+      "2.0x": 57.1,
+      "2.5x": 32.2,
+      "3.0x": 20.3
+    }
+  },
+  "caveats": [
+    "Data is from 2018 and covers about 3 weeks.",
+    "No weather or traffic data.",
+    "No cost fields; rates are sourced synthetic.",
+    "Hyper-parameters are fixed defaults; threshold chosen on a 6-day validation slice."
+  ]
+}
