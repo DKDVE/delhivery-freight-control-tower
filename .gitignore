@@ -1,0 +1,49 @@
+# secrets and local configuration
+.env
+.env.*
+!.env.example
+!.env.cloud.example
+*.key
+*.pem
+
+# runtime logs and audit trail
+app/logs/
+audit.jsonl
+*.log
+
+# environments, caches, build output
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.ruff_cache/
+frontend/playwright-report/
+frontend/test-results/
+.claude/
+infra/.azure/
+
+# confidential vendor data (the processed tables and models in the repository hold vendor codes only)
+data/raw/*.xlsx
+data/raw/vendor_lr.parquet
+data/raw/delhivery_data.csv
+data/private/
+
+# scratch and backups
+*.bak
+*.orig
+nb_as_script.py
+nb_done.flag
+
+# local working files that are not part of the review version
+CLAUDE.md
+AGENTS.md
+briefs/
+.github/
+docs/design/
+reports/figures.zip
+reports/metrics_summary.txt
+scripts/make_nb*.py
+scripts/design/
+scripts/free_disk_space.ps1

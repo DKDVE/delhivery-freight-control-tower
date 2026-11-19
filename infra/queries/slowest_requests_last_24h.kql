@@ -1,0 +1,10 @@
+// Freight Control Tower - slowest requests in the last 24h.
+// Parses the "[reqlog] METHOD PATH STATUS DURATIONms" line backend/main.py's _request_log middleware prints
+// for every request (stdout -> Container Apps -> Log Analytics ContainerAppConsoleLogs_CL).
+ContainerAppConsoleLogs_CL
+| where TimeGenerated > ago(24h)
+| where ContainerAppName_s == "fct-app"
+| where Log_s startswith "[reqlog]"
+| parse Log_s with "[reqlog] " Method:string " " Path:string " " Status:int " " DurationMs:real "ms"
+| top 50 by DurationMs desc
+| project TimeGenerated, Method, Path, Status, DurationMs

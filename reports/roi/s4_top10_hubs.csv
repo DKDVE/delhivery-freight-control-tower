@@ -1,0 +1,11 @@
+hub,name,legs,excess_hours,FTL_hours,Carting_hours
+IND000000ACB,Gurgaon_Bilaspur_HB (Haryana),286,658.87,451.57,207.3
+IND421302AAG,Bhiwandi_Mankoli_HB (Maharashtra),267,530.88,209.05,321.83
+IND562132AAA,Bangalore_Nelmngla_H (Karnataka),194,391.55,189.75,201.8
+IND501359AAE,Hyderabad_Shamshbd_H (Telangana),78,214.98,144.92,70.07
+IND209304AAA,Kanpur_Central_H_6 (Uttar Pradesh),82,200.9,173.32,27.58
+IND382430AAB,Ahmedabad_East_H_1 (Gujarat),77,183.55,141.23,42.32
+IND160002AAC,Chandigarh_Mehmdpur_H (Punjab),74,152.58,143.37,9.22
+IND411033AAA,Pune_Tathawde_H (Maharashtra),84,148.42,113.57,34.85
+IND110037AAM,Delhi_Airport_H (Delhi),71,146.1,111.27,34.83
+IND131028AAB,Sonipat_Kundli_H (Haryana),45,122.1,100.8,21.3

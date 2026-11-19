@@ -1,0 +1,505 @@
+{
+  "meta": {
+    "generated": "2026-11-09 01:26",
+    "vendor_test_period": "2026-01-01 to 2026-03-31",
+    "middle_mile_test_period": "2018-09-27 to 2018-10-03",
+    "vendors": "codes only",
+    "capture_rates_and_costs": "not chosen here; the team sets them in the ROI model",
+    "s1_headline_scenario": "35% of the costlier vendors' volume moved (20% and 50% also given)"
+  },
+  "context": {
+    "year": {
+      "valid_freight_rs": 5385981572.100001,
+      "billed_rs": 5630101807.430001,
+      "margin_rs": 244120235.33,
+      "margin_pct": 4.3359826106134784,
+      "valid_lrs": 284421,
+      "period": "2025-04-01 to 2026-03-31"
+    },
+    "test_quarter": {
+      "valid_freight_rs": 1399928483.59,
+      "billed_rs": 1466091860.64,
+      "margin_rs": 66163377.05,
+      "margin_pct": 4.512908012538681,
+      "valid_lrs": 65312,
+      "period": "2026-01-01 to 2026-03-31"
+    },
+    "annual_factor": 3.8473262278999427,
+    "annual_factor_x4": 4.0,
+    "annual_factor_definition": "valid freight Apr 2025-Mar 2026 / valid freight Jan-Mar 2026 (valid = LRs with freight > 0 and billed value > 0)",
+    "counts": {
+      "lrs_in_clean_table": 295239,
+      "valid_cost_lrs": 284421,
+      "shipments": 172826,
+      "valid_cost_shipments": 166454,
+      "vendors": 139,
+      "vendors_with_10plus_lrs": 114,
+      "routes": 2488,
+      "lanes_route_x_vehicle_type": 9631,
+      "plants": 62
+    }
+  },
+  "ownership": {
+    "order": [
+      "S3",
+      "S1",
+      "S2"
+    ],
+    "shipments_claimed": {
+      "S3": 3358,
+      "S1": 12322,
+      "S2": 4493
+    },
+    "overlap_shipments": 0,
+    "gross_rs": {
+      "S3": 11232555.084917575,
+      "S1": 11892480.341775894,
+      "S2": 37059316.07
+    },
+    "net_rs": {
+      "S3": 11232555.084917575,
+      "S1": 10257756.19557726,
+      "S2": 22651056.72
+    },
+    "gross_sum_rs": 60184351.49669347,
+    "net_sum_rs": 44141368.00049484,
+    "s2_note": "S2 gross is the loss on true-positive LRs (the exposure the alert watches), not a saving; the team applies a capture rate.",
+    "annualised_net_rs": {
+      "S1": 39464934.450647525,
+      "S3": 43215303.78453425,
+      "S2": 87146004.60850525
+    },
+    "annualised_net_rs_x4": {
+      "S1": 41031024.78230904,
+      "S3": 44930220.3396703,
+      "S2": 90604226.88
+    }
+  },
+  "S1": {
+    "cells_with_10plus_test_shipments": 784,
+    "target_cells": 75,
+    "target_vendors": 26,
+    "target_lanes_route_x_vehicle_type": 71,
+    "actual_rs_in_cells": 790340363.51,
+    "fair_rs_in_cells": 807965865.9553125,
+    "lever_a_gap_rs_gross": 7679420.0809425805,
+    "lever_a_sensitivity": {
+      "3pct": {
+        "target_cells": 106,
+        "gap_rs": 8741539.566749299
+      },
+      "5pct": {
+        "target_cells": 75,
+        "gap_rs": 7679420.0809425805
+      },
+      "10pct": {
+        "target_cells": 39,
+        "gap_rs": 4627584.508777166
+      }
+    },
+    "top10_cells_share_of_gap": 0.46550336883324595,
+    "lever_b_rs_gross_by_share_moved_pct": {
+      "20": 2518476.2927712426,
+      "35": 4407333.5123496745,
+      "50": 6296190.731928106
+    },
+    "lanes_eligible_for_reallocation": 513,
+    "cells_with_a_cheaper_vendor_available": 264,
+    "s1_rs_gross_by_share_moved_pct": {
+      "20": 10086225.496301683,
+      "35": 11892480.341775894,
+      "50": 13715942.010433279
+    },
+    "s1_rs_net_by_share_moved_pct": {
+      "20": 8805521.005488707,
+      "35": 10257756.19557726,
+      "50": 11728717.59148876
+    },
+    "headline_share_moved_pct": 35,
+    "s1_rs_gross": 11892480.341775894,
+    "s1_rs_net": 10257756.19557726,
+    "shipments_claimed_by_s1": 12322,
+    "definition": "per cell the larger of lever A (actual - fair, target cells above 5%) and lever B (share moved x (vendor rate - cheapest rate) x qty, training rates); target cells fixed on the gross cell",
+    "claim_rule": "S1 claims all remaining shipments in cells won by lever A and the shipments with a cheaper vendor in cells won by lever B (middle scenario); S3 shipments are excluded first",
+    "caveat": "Lever A is the gap to a market-median model price; lever B assumes the cheapest training rate on the lane is available at the same service quality."
+  },
+  "S2": {
+    "threshold": 0.5345089714835508,
+    "alerts": 27940,
+    "calendar_days": 90,
+    "working_days_with_lrs": 89,
+    "alerts_per_calendar_day": 310.44444444444446,
+    "alerts_per_working_day": 313.9325842696629,
+    "true_positives": 16672,
+    "false_positives": 11268,
+    "missed_loss_makers": 3196,
+    "actual_loss_makers": 19868,
+    "precision": 0.5967072297780959,
+    "recall": 0.8391383128649084,
+    "loss_on_true_positives_rs_gross": 37059316.07,
+    "loss_missed_rs": 6016160.86,
+    "avg_loss_per_true_positive_rs": 2222.847652951056,
+    "loss_on_true_positives_rs_net": 22651056.72,
+    "true_positives_net": 7765,
+    "shipments_claimed_by_s2": 4493,
+    "action_mix": {
+      "sample_size": 2000,
+      "sample_requested": 2000,
+      "errors": 0,
+      "counts": {
+        "reassign vendor": 129,
+        "reprice or top up": 1099,
+        "downsize vehicle": 432,
+        "proceed": 126,
+        "verify quote": 15,
+        "renegotiate rate": 199
+      },
+      "shares": {
+        "downsize vehicle": 0.216,
+        "reassign vendor": 0.0645,
+        "renegotiate rate": 0.0995,
+        "reprice or top up": 0.5495,
+        "verify quote": 0.0075,
+        "proceed": 0.063
+      },
+      "note": "agent.decide_booking on shipment-level inputs (route, vehicle, qty, month, quote = shipment freight). Lane vendor rates behind 'reassign' include the test months."
+    },
+    "reconciles_with": "reports/metrics/V2.json business_impact_inputs",
+    "claim_rule": "net = true-positive LRs whose shipment is not claimed by S3 or S1"
+  },
+  "S3": {
+    "claim_rule": "S3 claims every flagged shipment the counterfactual covers (a right-sizing action applies to the whole shipment)",
+    "flagged_shipments": 3523,
+    "shipments_covered": 3358,
+    "shipments_with_positive_saving": 1885,
+    "saving_rs_gross": 11232555.084917575,
+    "saving_rs_net": 11232555.084917575,
+    "actual_freight_on_covered_rs": 63589519.62,
+    "median_saving_pct_all_covered": 4.075411631351129,
+    "median_saving_pct_where_positive": 26.05727007129129,
+    "distinct_routes_affected": 178,
+    "distinct_plants_affected": 34,
+    "top10_routes_by_saving": [
+      {
+        "route": "PGNIY3",
+        "shipments": 399,
+        "saving_rs": 3212120.5,
+        "freight_rs": 10771069.64,
+        "saving_pct": 29.82
+      },
+      {
+        "route": "SAMANR",
+        "shipments": 100,
+        "saving_rs": 716303.89,
+        "freight_rs": 1784542.45,
+        "saving_pct": 40.14
+      },
+      {
+        "route": "HOVES1",
+        "shipments": 38,
+        "saving_rs": 420517.94,
+        "freight_rs": 2293515.01,
+        "saving_pct": 18.34
+      },
+      {
+        "route": "AFKRU1",
+        "shipments": 10,
+        "saving_rs": 314827.35,
+        "freight_rs": 1495622.51,
+        "saving_pct": 21.05
+      },
+      {
+        "route": "PGDAM1",
+        "shipments": 80,
+        "saving_rs": 300422.31,
+        "freight_rs": 1390585.09,
+        "saving_pct": 21.6
+      },
+      {
+        "route": "AFHOW1",
+        "shipments": 16,
+        "saving_rs": 300165.69,
+        "freight_rs": 1571260.01,
+        "saving_pct": 19.1
+      },
+      {
+        "route": "HOLUD2",
+        "shipments": 50,
+        "saving_rs": 242572.39,
+        "freight_rs": 765915.55,
+        "saving_pct": 31.67
+      },
+      {
+        "route": "AFTRV1",
+        "shipments": 6,
+        "saving_rs": 216767.66,
+        "freight_rs": 899335.01,
+        "saving_pct": 24.1
+      },
+      {
+        "route": "BBHAZ1",
+        "shipments": 15,
+        "saving_rs": 216505.3,
+        "freight_rs": 727605.01,
+        "saving_pct": 29.76
+      },
+      {
+        "route": "SIHAZ1",
+        "shipments": 54,
+        "saving_rs": 214225.26,
+        "freight_rs": 650450.01,
+        "saving_pct": 32.93
+      }
+    ],
+    "top10_share_of_saving": 0.5479099130706463,
+    "reconciles_with": "reports/metrics/V3.json counterfactual_saving.total_saving_rs",
+    "caveat": "Indicative: V1 is a market-median price, capacities come from training history on the same route."
+  },
+  "S4": {
+    "scale_label": "2018 network scale, illustrative",
+    "weeks_per_year": 52,
+    "test_window": "trips created 2018-09-27 to 2018-10-03 (7 days)",
+    "rates_for_convenience_rs_per_hour_base": {
+      "FTL": 565,
+      "Carting": 125
+    },
+    "rate_source": "sourced synthetic (the team sets the rates in the ROI model)",
+    "m2_alerts": {
+      "by_route_type": {
+        "FTL": {
+          "trips": 1500,
+          "alerts": 323,
+          "true_positives": 183,
+          "severe_trips": 314,
+          "excess_hours_above_2x_plan_on_true_positives": 961.05,
+          "excess_hours_above_plan_on_true_positives": 1469.7166666666667
+        },
+        "Carting": {
+          "trips": 2663,
+          "alerts": 1463,
+          "true_positives": 896,
+          "severe_trips": 1058,
+          "excess_hours_above_2x_plan_on_true_positives": 1362.6833333333334,
+          "excess_hours_above_plan_on_true_positives": 1876.6666666666665
+        }
+      },
+      "total": {
+        "trips": 4163,
+        "alerts": 1786,
+        "true_positives": 1079,
+        "severe_trips": 1372,
+        "excess_hours_above_2x_plan_on_true_positives": 2323.7333333333336,
+        "excess_hours_above_plan_on_true_positives": 3346.383333333333
+      },
+      "base_rate_rs_on_hours_above_2x_plan": 713328.6666666667,
+      "base_rate_rs_on_hours_above_plan": 1064973.25,
+      "threshold": 0.4226844810740814,
+      "reconciles_with": "reports/metrics/M2.json (hours above plan)"
+    },
+    "hub_fixes": {
+      "network_median_handling_min": 51.0,
+      "hubs_ranked": 25,
+      "total_excess_hours_hubs_30plus_legs": 3535.6833333333334,
+      "total_excess_hours_all_test_legs": 7661.799999999999,
+      "total_excess_hours_by_route_type": {
+        "FTL": 2176.55,
+        "Carting": 1359.1333333333334
+      },
+      "top10_excess_hours": 2749.9333333333334,
+      "top10_share_of_excess": 0.777765731282496,
+      "top10_excess_hours_by_route_type": {
+        "FTL": 1778.8333333333335,
+        "Carting": 971.0999999999999
+      },
+      "top10_hubs": [
+        {
+          "hub": "IND000000ACB",
+          "name": "Gurgaon_Bilaspur_HB (Haryana)",
+          "legs": 286,
+          "excess_hours": 658.8666666666667,
+          "FTL_hours": 451.56666666666666,
+          "Carting_hours": 207.3
+        },
+        {
+          "hub": "IND421302AAG",
+          "name": "Bhiwandi_Mankoli_HB (Maharashtra)",
+          "legs": 267,
+          "excess_hours": 530.8833333333333,
+          "FTL_hours": 209.04999999999998,
+          "Carting_hours": 321.8333333333333
+        },
+        {
+          "hub": "IND562132AAA",
+          "name": "Bangalore_Nelmngla_H (Karnataka)",
+          "legs": 194,
+          "excess_hours": 391.55,
+          "FTL_hours": 189.75,
+          "Carting_hours": 201.8
+        },
+        {
+          "hub": "IND501359AAE",
+          "name": "Hyderabad_Shamshbd_H (Telangana)",
+          "legs": 78,
+          "excess_hours": 214.98333333333332,
+          "FTL_hours": 144.91666666666666,
+          "Carting_hours": 70.06666666666666
+        },
+        {
+          "hub": "IND209304AAA",
+          "name": "Kanpur_Central_H_6 (Uttar Pradesh)",
+          "legs": 82,
+          "excess_hours": 200.9,
+          "FTL_hours": 173.31666666666666,
+          "Carting_hours": 27.583333333333336
+        },
+        {
+          "hub": "IND382430AAB",
+          "name": "Ahmedabad_East_H_1 (Gujarat)",
+          "legs": 77,
+          "excess_hours": 183.55,
+          "FTL_hours": 141.23333333333335,
+          "Carting_hours": 42.31666666666666
+        },
+        {
+          "hub": "IND160002AAC",
+          "name": "Chandigarh_Mehmdpur_H (Punjab)",
+          "legs": 74,
+          "excess_hours": 152.58333333333334,
+          "FTL_hours": 143.36666666666667,
+          "Carting_hours": 9.216666666666667
+        },
+        {
+          "hub": "IND411033AAA",
+          "name": "Pune_Tathawde_H (Maharashtra)",
+          "legs": 84,
+          "excess_hours": 148.41666666666666,
+          "FTL_hours": 113.56666666666666,
+          "Carting_hours": 34.85
+        },
+        {
+          "hub": "IND110037AAM",
+          "name": "Delhi_Airport_H (Delhi)",
+          "legs": 71,
+          "excess_hours": 146.1,
+          "FTL_hours": 111.26666666666667,
+          "Carting_hours": 34.833333333333336
+        },
+        {
+          "hub": "IND131028AAB",
+          "name": "Sonipat_Kundli_H (Haryana)",
+          "legs": 45,
+          "excess_hours": 122.1,
+          "FTL_hours": 100.8,
+          "Carting_hours": 21.3
+        }
+      ],
+      "base_rate_rs_top10": 1126428.3333333333,
+      "base_rate_rs_network": 1399642.4166666667
+    },
+    "m1_planning_gap": {
+      "by_route_type": {
+        "FTL": {
+          "trips": 1500,
+          "abs_gap_hours_plan_as_is": 9739.15,
+          "abs_gap_hours_plan_scaled_by_training_ratio": 3453.5747906048305,
+          "abs_gap_hours_m1": 2375.709829312184,
+          "hours_better_than_plan": 7363.440170687816,
+          "hours_better_than_scaled_plan": 1077.8649612926465
+        },
+        "Carting": {
+          "trips": 2663,
+          "abs_gap_hours_plan_as_is": 3506.4166666666665,
+          "abs_gap_hours_plan_scaled_by_training_ratio": 2135.0334559242365,
+          "abs_gap_hours_m1": 1602.146058453386,
+          "hours_better_than_plan": 1904.2706082132804,
+          "hours_better_than_scaled_plan": 532.8873974708504
+        },
+        "All": {
+          "trips": 4163,
+          "abs_gap_hours_plan_as_is": 13245.566666666668,
+          "abs_gap_hours_plan_scaled_by_training_ratio": 5588.608246529067,
+          "abs_gap_hours_m1": 3977.8558877655705,
+          "hours_better_than_plan": 9267.710778901097,
+          "hours_better_than_scaled_plan": 1610.7523587634969
+        }
+      },
+      "median_training_ratio": 2.0925152681397385,
+      "base_rate_rs_hours_better_than_plan": 4398377.5224652765,
+      "base_rate_rs_hours_better_than_scaled_plan": 675604.6278142016
+    },
+    "annualised_hours_x52": {
+      "m2_true_positive_hours_above_2x_plan": 120834.13333333335,
+      "hub_top10_excess_hours": 142996.53333333333,
+      "m1_hours_better_than_plan": 481920.96050285705
+    }
+  },
+  "duplicate_payment_audit": {
+    "rows": 560,
+    "freight_rs": 10597843.399999999,
+    "billed_rs": 14397518.22,
+    "shipments_affected": 322,
+    "vendors_affected": 62,
+    "by_vendor_top10": [
+      {
+        "vendor_code": "V001",
+        "rows": 28,
+        "freight_rs": 1410489.98
+      },
+      {
+        "vendor_code": "V005",
+        "rows": 53,
+        "freight_rs": 1016671.56
+      },
+      {
+        "vendor_code": "V011",
+        "rows": 13,
+        "freight_rs": 806914.22
+      },
+      {
+        "vendor_code": "V008",
+        "rows": 13,
+        "freight_rs": 672017.07
+      },
+      {
+        "vendor_code": "V002",
+        "rows": 23,
+        "freight_rs": 588318.51
+      },
+      {
+        "vendor_code": "V010",
+        "rows": 4,
+        "freight_rs": 512679.87
+      },
+      {
+        "vendor_code": "V003",
+        "rows": 42,
+        "freight_rs": 437594.01
+      },
+      {
+        "vendor_code": "V007",
+        "rows": 4,
+        "freight_rs": 418322.4
+      },
+      {
+        "vendor_code": "V004",
+        "rows": 11,
+        "freight_rs": 410314.13
+      },
+      {
+        "vendor_code": "V034",
+        "rows": 7,
+        "freight_rs": 325212.19
+      }
+    ],
+    "top3_vendor_share_of_freight": 0.3051635731850878,
+    "by_month": [
+      {
+        "month": "2026-03",
+        "rows": 560,
+        "freight_rs": 10597843.4
+      }
+    ],
+    "full_table": "reports/roi/duplicate_rows_by_vendor_month.csv",
+    "note": "Rows that are exact repeats of another LR across all 69 columns; they were removed before modelling. Whether any was paid twice needs checking against payment records."
+  }
+}

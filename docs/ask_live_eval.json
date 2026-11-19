@@ -1,0 +1,458 @@
+{
+  "summary": {
+    "n_questions": 15,
+    "n_completed": 15,
+    "n_errored": 0,
+    "errors": [],
+    "summary_source": {
+      "llm": 14,
+      "template": 1,
+      "template_reasons": [
+        "hallucination_blocked"
+      ]
+    },
+    "chart_types_chosen": {
+      "bar": 6,
+      "table": 4,
+      "line": 1,
+      "stacked100": 3,
+      "bar_dot": 1
+    },
+    "followups_dropped_as_invalid": {
+      "total_dropped": 17,
+      "total_proposed": 62,
+      "share_dropped": 0.274
+    },
+    "query_selection": {
+      "llm_picked_expected_query": "15/15",
+      "mismatches": []
+    },
+    "timing_s": {
+      "median_time_to_first_table": 3.484,
+      "median_time_to_full_answer": 3.687,
+      "per_question": {
+        "vendors_by_loss": {
+          "first_table_s": 4.297,
+          "full_answer_s": 4.454
+        },
+        "top_overpaying_lanes": {
+          "first_table_s": 2.89,
+          "full_answer_s": 3.125
+        },
+        "vendor_overpay_ranking": {
+          "first_table_s": 2.813,
+          "full_answer_s": 3.454
+        },
+        "monthly_margin_trend": {
+          "first_table_s": 5.515,
+          "full_answer_s": 5.64
+        },
+        "loss_share_by_vehicle_type": {
+          "first_table_s": 4.485,
+          "full_answer_s": 6.797
+        },
+        "underloaded_lanes": {
+          "first_table_s": 3.906,
+          "full_answer_s": 4.047
+        },
+        "hubs_by_delay": {
+          "first_table_s": 3.422,
+          "full_answer_s": 3.703
+        },
+        "corridors_by_overrun": {
+          "first_table_s": 3.531,
+          "full_answer_s": 3.64
+        },
+        "data_quality_summary": {
+          "first_table_s": 3.578,
+          "full_answer_s": 3.687
+        },
+        "margin_by_zone": {
+          "first_table_s": 3.187,
+          "full_answer_s": 4.296
+        },
+        "route_type_overrun": {
+          "first_table_s": 3.297,
+          "full_answer_s": 3.469
+        },
+        "underload_rate_by_plant": {
+          "first_table_s": 3.484,
+          "full_answer_s": 3.516
+        },
+        "vendor_price_gap_lanes": {
+          "first_table_s": 3.375,
+          "full_answer_s": 3.672
+        },
+        "top_loss_making_lanes": {
+          "first_table_s": 3.937,
+          "full_answer_s": 4.359
+        },
+        "vendor_quadrant_counts": {
+          "first_table_s": 3.375,
+          "full_answer_s": 3.531
+        }
+      }
+    },
+    "privacy_vendor_name_leak_check": {
+      "n_leaked": 3,
+      "details": [
+        {
+          "question": "Which vendors lose the most money?",
+          "names": [
+            "V002",
+            "V003",
+            "V001",
+            "V002",
+            "V003",
+            "V004",
+            "V009",
+            "V011",
+            "V013",
+            "V020",
+            "V023",
+            "V024"
+          ]
+        },
+        {
+          "question": "Which lanes have the highest overpayment against the fair price?",
+          "names": [
+            "V037",
+            "V002",
+            "V017",
+            "V021",
+            "V027",
+            "V029",
+            "V037"
+          ]
+        },
+        {
+          "question": "Which vendors overpay the most against the fair price?",
+          "names": [
+            "V001",
+            "V002",
+            "V001",
+            "V002",
+            "V003",
+            "V005",
+            "V007",
+            "V011",
+            "V019",
+            "V021",
+            "V027",
+            "V037"
+          ]
+        }
+      ]
+    },
+    "model_pinned": "openai/gpt-oss-120b",
+    "provider": "groq"
+  },
+  "rows": [
+    {
+      "qid": "vendors_by_loss",
+      "question": "Which vendors lose the most money?",
+      "kind": "ok",
+      "picked_qid": "vendors_by_loss",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "bar",
+      "n_rows": 10,
+      "followups_dropped": 0,
+      "followups_offered": 3,
+      "time_to_first_table_s": 4.297,
+      "time_to_full_answer_s": 4.454,
+      "vendor_name_leak": [
+        "V002",
+        "V003",
+        "V001",
+        "V002",
+        "V003",
+        "V004",
+        "V009",
+        "V011",
+        "V013",
+        "V020",
+        "V023",
+        "V024"
+      ]
+    },
+    {
+      "qid": "top_overpaying_lanes",
+      "question": "Which lanes have the highest overpayment against the fair price?",
+      "kind": "ok",
+      "picked_qid": "top_overpaying_lanes",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "table",
+      "n_rows": 10,
+      "followups_dropped": 3,
+      "followups_offered": 3,
+      "time_to_first_table_s": 2.89,
+      "time_to_full_answer_s": 3.125,
+      "vendor_name_leak": [
+        "V037",
+        "V002",
+        "V017",
+        "V021",
+        "V027",
+        "V029",
+        "V037"
+      ]
+    },
+    {
+      "qid": "vendor_overpay_ranking",
+      "question": "Which vendors overpay the most against the fair price?",
+      "kind": "ok",
+      "picked_qid": "vendor_overpay_ranking",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "bar",
+      "n_rows": 10,
+      "followups_dropped": 2,
+      "followups_offered": 3,
+      "time_to_first_table_s": 2.813,
+      "time_to_full_answer_s": 3.454,
+      "vendor_name_leak": [
+        "V001",
+        "V002",
+        "V001",
+        "V002",
+        "V003",
+        "V005",
+        "V007",
+        "V011",
+        "V019",
+        "V021",
+        "V027",
+        "V037"
+      ]
+    },
+    {
+      "qid": "monthly_margin_trend",
+      "question": "How has margin trended by month?",
+      "kind": "ok",
+      "picked_qid": "monthly_margin_trend",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "line",
+      "n_rows": 12,
+      "followups_dropped": 1,
+      "followups_offered": 3,
+      "time_to_first_table_s": 5.515,
+      "time_to_full_answer_s": 5.64,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "loss_share_by_vehicle_type",
+      "question": "Which vehicle types lose money most often?",
+      "kind": "ok",
+      "picked_qid": "loss_share_by_vehicle_type",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "table",
+      "n_rows": 44,
+      "followups_dropped": 2,
+      "followups_offered": 3,
+      "time_to_first_table_s": 4.485,
+      "time_to_full_answer_s": 6.797,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "underloaded_lanes",
+      "question": "Which routes have the most underloaded trucks?",
+      "kind": "ok",
+      "picked_qid": "underloaded_lanes",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "stacked100",
+      "n_rows": 10,
+      "followups_dropped": 2,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.906,
+      "time_to_full_answer_s": 4.047,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "hubs_by_delay",
+      "question": "Which hubs are slowest at handling?",
+      "kind": "ok",
+      "picked_qid": "hubs_by_delay",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "bar",
+      "n_rows": 10,
+      "followups_dropped": 0,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.422,
+      "time_to_full_answer_s": 3.703,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "corridors_by_overrun",
+      "question": "Which corridors overrun their planned time the most?",
+      "kind": "ok",
+      "picked_qid": "corridors_by_overrun",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "bar",
+      "n_rows": 10,
+      "followups_dropped": 0,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.531,
+      "time_to_full_answer_s": 3.64,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "data_quality_summary",
+      "question": "Show the data quality issues, such as missing fields or zero freight.",
+      "kind": "ok",
+      "picked_qid": "data_quality_summary",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "template",
+      "guardrail_events": [
+        "hallucination_blocked"
+      ],
+      "chart_type": "bar_dot",
+      "n_rows": 6,
+      "followups_dropped": 2,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.578,
+      "time_to_full_answer_s": 3.687,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "margin_by_zone",
+      "question": "How does margin percent compare across zones?",
+      "kind": "ok",
+      "picked_qid": "margin_by_zone",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "stacked100",
+      "n_rows": 4,
+      "followups_dropped": 1,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.187,
+      "time_to_full_answer_s": 4.296,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "route_type_overrun",
+      "question": "Does FTL or Carting overrun its planned time more?",
+      "kind": "ok",
+      "picked_qid": "route_type_overrun",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "bar",
+      "n_rows": 2,
+      "followups_dropped": 0,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.297,
+      "time_to_full_answer_s": 3.469,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "underload_rate_by_plant",
+      "question": "Which origin plants have the highest under-load rate?",
+      "kind": "ok",
+      "picked_qid": "underload_rate_by_plant",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "stacked100",
+      "n_rows": 25,
+      "followups_dropped": 0,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.484,
+      "time_to_full_answer_s": 3.516,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "vendor_price_gap_lanes",
+      "question": "Which lanes have the biggest gap between the cheapest and priciest vendor?",
+      "kind": "ok",
+      "picked_qid": "vendor_price_gap_lanes",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "table",
+      "n_rows": 10,
+      "followups_dropped": 0,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.375,
+      "time_to_full_answer_s": 3.672,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "top_loss_making_lanes",
+      "question": "Which lanes lose the most total money?",
+      "kind": "ok",
+      "picked_qid": "top_loss_making_lanes",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "table",
+      "n_rows": 10,
+      "followups_dropped": 2,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.937,
+      "time_to_full_answer_s": 4.359,
+      "vendor_name_leak": []
+    },
+    {
+      "qid": "vendor_quadrant_counts",
+      "question": "How many vendors fall into each spend/margin quadrant?",
+      "kind": "ok",
+      "picked_qid": "vendor_quadrant_counts",
+      "qid_matches_expected": true,
+      "mode": "LIVE",
+      "model_used": "groq/openai/gpt-oss-120b",
+      "summary_source": "llm",
+      "guardrail_events": [],
+      "chart_type": "bar",
+      "n_rows": 4,
+      "followups_dropped": 2,
+      "followups_offered": 3,
+      "time_to_first_table_s": 3.375,
+      "time_to_full_answer_s": 3.531,
+      "vendor_name_leak": []
+    }
+  ]
+}

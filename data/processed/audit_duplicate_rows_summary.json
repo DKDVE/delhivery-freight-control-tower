@@ -1,0 +1,11 @@
+{
+  "rows_before": 296946,
+  "duplicate_rows_dropped": 560,
+  "rows_after": 296386,
+  "columns_compared": 69,
+  "r2_freight_rs_in_duplicates": 10597843.399999999,
+  "r2_freight_cr_in_duplicates": 1.0597843399999998,
+  "gta_invoice_value_rs_in_duplicates": 14397518.22,
+  "shipments_affected": 322,
+  "delivery_ids_affected": 560
+}

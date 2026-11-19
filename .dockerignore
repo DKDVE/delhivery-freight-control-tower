@@ -1,0 +1,37 @@
+# Build context only needs what the Dockerfile actually COPYs; everything else here just slows down `docker build`.
+.git
+.github
+.venv
+.vscode
+.idea
+__pycache__
+**/__pycache__
+*.pyc
+
+.env
+.env.*
+!.env.*.example
+app/logs/
+
+data/raw/
+notebooks/
+tests/
+docs/
+briefs/
+scripts/
+.claude/
+
+frontend/node_modules/
+frontend/src/
+frontend/e2e/
+frontend/test-results/
+frontend/playwright-report/
+frontend/*.config.ts
+frontend/package*.json
+frontend/tsconfig.json
+
+infra/.azure/
+# prompts/*.md are app data (message templates), not docs - keep them; only drop the top-level docs
+/README.md
+/AGENTS.md
+/CLAUDE.md

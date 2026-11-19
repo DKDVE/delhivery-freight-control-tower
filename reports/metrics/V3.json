@@ -1,0 +1,171 @@
+{
+  "task_id": "V3",
+  "problem": "vendor",
+  "type": "classification",
+  "business_question": "When planning, before loading, which lane and vehicle choices end up below 60% full?",
+  "target": "utilisation < 60",
+  "grain": "shipment",
+  "train_period": "2025-04-01 to 2025-12-31",
+  "test_period": "2026-01-01 to 2026-03-31",
+  "n_train": 124252,
+  "n_test": 37186,
+  "base_rate_or_baseline": {
+    "metric": "PR-AUC of constant base rate (= test prevalence)",
+    "value": 0.0891,
+    "train_base_rate": 0.0918
+  },
+  "extra_baselines": [
+    {
+      "name": "Lookup route×vehicle_type, rates fitted on TRAIN shipments only (<5 rows -> train base rate)",
+      "PR_AUC": 0.6333,
+      "test_shipments_on_fallback_rate": 5257,
+      "note": "rates fitted on training shipments only"
+    }
+  ],
+  "features": [
+    "route",
+    "origin_plant",
+    "destination_point",
+    "zone",
+    "state_destination",
+    "vehicle_type",
+    "truck_load",
+    "vendor",
+    "shipment_type",
+    "vehicle_capacity",
+    "month",
+    "weekday",
+    "distance"
+  ],
+  "excluded_for_leakage": [
+    "r2_freight",
+    "gta_invoice_value",
+    "margin",
+    "margin_pct",
+    "transport_charges_paid",
+    "total_transport_charges",
+    "other_charges",
+    "liability_amount",
+    "liability_amount_as_on_date",
+    "b2b_billing",
+    "shipment_cost_no",
+    "shipment_cost",
+    "condition_flow",
+    "reporting_number",
+    "rp5_shipment",
+    "billing_document_date",
+    "billed_qty",
+    "billing_qty_in_mt",
+    "ftl_value",
+    "propotionate_ftl_value",
+    "delivery_id",
+    "shipment_no",
+    "container_id",
+    "total_qty",
+    "n_lrs",
+    "n_routes (outcome of loading)"
+  ],
+  "models": [
+    {
+      "name": "Logistic",
+      "metrics": {
+        "PR_AUC": 0.6616,
+        "ROC_AUC": 0.9068,
+        "precision": 0.6558,
+        "recall": 0.5484,
+        "F1": 0.5973,
+        "threshold": 0.8414,
+        "val_precision_at_thr": 0.6001,
+        "val_recall_at_thr": 0.5424
+      },
+      "fit_seconds": 1.2
+    },
+    {
+      "name": "RandomForest",
+      "metrics": {
+        "PR_AUC": 0.6899,
+        "ROC_AUC": 0.9204,
+        "precision": 0.5417,
+        "recall": 0.6821,
+        "F1": 0.6038,
+        "threshold": 0.4907,
+        "val_precision_at_thr": 0.6001,
+        "val_recall_at_thr": 0.6769
+      },
+      "fit_seconds": 3.3
+    },
+    {
+      "name": "LightGBM",
+      "metrics": {
+        "PR_AUC": 0.7516,
+        "ROC_AUC": 0.9358,
+        "precision": 0.6554,
+        "recall": 0.6965,
+        "F1": 0.6753,
+        "threshold": 0.6822,
+        "val_precision_at_thr": 0.6,
+        "val_recall_at_thr": 0.7196
+      },
+      "fit_seconds": 4.4
+    }
+  ],
+  "winner": "LightGBM",
+  "winner_reason": "LightGBM chosen on PR-AUC (0.7516); models within 2% of the best: ['LightGBM'] (simplest preferred).",
+  "threshold": 0.6821718338610192,
+  "threshold_rule": "recall-max with val precision>=0.60",
+  "top_drivers": [
+    {
+      "feature": "origin_plant",
+      "mean_abs_shap": 1.07348,
+      "plain_english": "origin_plant: the biggest push toward under-loading risk comes from '39TT', the biggest push away from it from '3902'."
+    },
+    {
+      "feature": "route",
+      "mean_abs_shap": 0.99918,
+      "plain_english": "route: the biggest push toward under-loading risk comes from 'SAMANR', the biggest push away from it from 'GCHAZ2'."
+    },
+    {
+      "feature": "destination_point",
+      "mean_abs_shap": 0.71273,
+      "plain_english": "destination_point: the biggest push toward under-loading risk comes from 'HAZIRA', the biggest push away from it from 'KALUAKURTY'."
+    },
+    {
+      "feature": "vehicle_type",
+      "mean_abs_shap": 0.45703,
+      "plain_english": "vehicle_type: the biggest push toward under-loading risk comes from 'SB06', the biggest push away from it from 'OB13'."
+    },
+    {
+      "feature": "vendor",
+      "mean_abs_shap": 0.41523,
+      "plain_english": "vendor: the biggest push toward under-loading risk comes from 'V066', the biggest push away from it from 'V005'."
+    }
+  ],
+  "business_impact_inputs": {
+    "label": "test period; counterfactual is indicative",
+    "flagged": 3523,
+    "true_positives": 2309,
+    "actual_underloaded": 3315,
+    "freight_on_underloaded_rs": 59061408.79000001,
+    "avg_utilisation_underloaded_pct": 48.42963658875718,
+    "counterfactual_saving": {
+      "label": "indicative",
+      "flagged_in_test": 3523,
+      "flagged_with_real_freight": 3517,
+      "covered_with_counterfactual": 3358,
+      "covered_with_strictly_smaller_vehicle": 2416,
+      "shipments_with_positive_saving": 1885,
+      "total_saving_rs": 11232555.084917583,
+      "median_saving_pct_all_covered": 4.075411631351129,
+      "median_saving_pct_where_positive": 26.05727007129116,
+      "actual_freight_on_covered_rs": 63589519.62,
+      "vehicle_change_only_effect_rs": 10579916.061517846
+    }
+  },
+  "caveats": [
+    "560 exact duplicate rows (all 69 columns equal; ₹1.1 Cr of freight, 322 shipments) were dropped before modelling; see data/processed/audit_duplicate_rows.csv.",
+    "Planning-time features only; total_qty, n_lrs and n_routes excluded because they are the outcome of loading.",
+    "Classes are imbalanced (about 9% under-loaded); judge on PR-AUC.",
+    "Counterfactual saving is indicative: V1 is a market-median price, capacities come from training history on the same route, and shipments on routes without a suitable training capacity are not covered.",
+    "RandomForest fitted on a 50,000-row training sample."
+  ]
+}

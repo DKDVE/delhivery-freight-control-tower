@@ -1,0 +1,199 @@
+{
+  "task_id": "M1",
+  "problem": "middle_mile",
+  "type": "regression",
+  "business_question": "How long will this trip really take?",
+  "target": "actual trip minutes (sum of legs' actual_time; models trained on log1p)",
+  "grain": "trip",
+  "train_period": "trips created 2018-09-12 to 2018-09-26",
+  "test_period": "trips created 2018-09-27 to 2018-10-03",
+  "n_train": 10654,
+  "n_test": 4163,
+  "base_rate_or_baseline": {
+    "metric": "osrm_time_total x median training ratio (MAE, minutes)",
+    "value": 80.55,
+    "all_metrics": {
+      "MAE": 80.55,
+      "RMSE": 177.26,
+      "MAPE": 29.22,
+      "R2": 0.9074
+    },
+    "median_training_ratio": 2.0925152681397385,
+    "planned_time_as_is": {
+      "MAE": 190.9,
+      "RMSE": 377.08,
+      "MAPE": 52.92,
+      "R2": 0.5809
+    }
+  },
+  "features": [
+    "route_type",
+    "first_source_center",
+    "last_destination_center",
+    "corridor",
+    "route_schedule_uuid",
+    "osrm_time_total",
+    "osrm_distance_total",
+    "n_legs",
+    "creation_hour",
+    "creation_weekday"
+  ],
+  "excluded_for_leakage": [
+    "actual_time",
+    "segment_actual_time",
+    "actual_distance_to_destination",
+    "factor",
+    "segment_factor",
+    "start_scan_to_end_scan",
+    "od_end_time",
+    "cutoff_factor",
+    "cutoff_timestamp",
+    "is_cutoff"
+  ],
+  "models": [
+    {
+      "name": "Ridge",
+      "metrics": {
+        "MAE": 169.24,
+        "RMSE": 621.88,
+        "MAPE": 47.86,
+        "R2": -0.1399
+      },
+      "fit_seconds": 0.0
+    },
+    {
+      "name": "RandomForest",
+      "metrics": {
+        "MAE": 58.64,
+        "RMSE": 146.88,
+        "MAPE": 24.45,
+        "R2": 0.9364
+      },
+      "fit_seconds": 0.9
+    },
+    {
+      "name": "LightGBM",
+      "metrics": {
+        "MAE": 57.33,
+        "RMSE": 144.04,
+        "MAPE": 24.19,
+        "R2": 0.9389
+      },
+      "fit_seconds": 1.0
+    }
+  ],
+  "winner": "LightGBM",
+  "winner_reason": "LightGBM chosen on MAE (57 min). Models within 2% of the best MAE: ['LightGBM']; when several are within 2% the simplest is preferred.",
+  "threshold": null,
+  "top_drivers": [
+    {
+      "feature": "osrm_distance_total",
+      "mean_abs_shap": 0.6554,
+      "plain_english": "Higher osrm_distance_total raises the predicted trip duration (log minutes)."
+    },
+    {
+      "feature": "osrm_time_total",
+      "mean_abs_shap": 0.21469,
+      "plain_english": "Higher osrm_time_total raises the predicted trip duration (log minutes)."
+    },
+    {
+      "feature": "creation_hour",
+      "mean_abs_shap": 0.07027,
+      "plain_english": "Higher creation_hour lowers the predicted trip duration (log minutes)."
+    },
+    {
+      "feature": "corridor",
+      "mean_abs_shap": 0.06608,
+      "plain_english": "corridor: the biggest push toward trip duration (log minutes) comes from 'Uttar Pradesh -> Uttar Pradesh', the biggest push away from it from 'Punjab -> Punjab'."
+    },
+    {
+      "feature": "last_destination_center",
+      "mean_abs_shap": 0.06365,
+      "plain_english": "last_destination_center: the biggest push toward trip duration (log minutes) comes from 'IND712311AAA', the biggest push away from it from 'IND560060AAB'."
+    }
+  ],
+  "business_impact_inputs": {
+    "label": "sourced synthetic rates; Rs of under-planned hours in the test period",
+    "rates_per_hour": {
+      "base": {
+        "FTL": 565,
+        "Carting": 125
+      },
+      "conservative": {
+        "FTL": 500,
+        "Carting": 90
+      },
+      "optimistic": {
+        "FTL": 630,
+        "Carting": 160
+      }
+    },
+    "n_test_trips": 4163,
+    "scenarios": {
+      "base": {
+        "rate_FTL": 565.0,
+        "rate_Carting": 125.0,
+        "under_planned_hours_plan": 13241.949999999999,
+        "under_planned_hours_model": 2386.6375699147034,
+        "under_planned_hours_naive": 3535.483727110174,
+        "Rs_total_plan": 5939905.083333333,
+        "Rs_total_model": 918820.6951055444,
+        "Rs_total_naive": 1259946.6895985957,
+        "Rs_per_trip_plan": 1426.8328328929458,
+        "Rs_per_trip_model": 220.71119267488456,
+        "Rs_per_trip_naive": 302.65354061940803,
+        "reduction_vs_plan_%": 84.53139095296916,
+        "reduction_vs_naive_%": 27.074637150063076
+      },
+      "conservative": {
+        "rate_FTL": 500.0,
+        "rate_Carting": 90.0,
+        "under_planned_hours_plan": 13241.949999999999,
+        "under_planned_hours_model": 2386.6375699147034,
+        "under_planned_hours_naive": 3535.483727110174,
+        "Rs_total_plan": 5184300.833333333,
+        "Rs_total_model": 792982.1756903792,
+        "Rs_total_naive": 1080431.2666240698,
+        "Rs_per_trip_plan": 1245.3280887180717,
+        "Rs_per_trip_model": 190.48334751150114,
+        "Rs_per_trip_naive": 259.531892054785,
+        "reduction_vs_plan_%": 84.70416356643953,
+        "reduction_vs_naive_%": 26.605032621080827
+      },
+      "optimistic": {
+        "rate_FTL": 630.0,
+        "rate_Carting": 160.0,
+        "under_planned_hours_plan": 13241.949999999999,
+        "under_planned_hours_model": 2386.6375699147034,
+        "under_planned_hours_naive": 3535.483727110174,
+        "Rs_total_plan": 6695509.333333334,
+        "Rs_total_model": 1044659.2145207094,
+        "Rs_total_naive": 1439462.1125731217,
+        "Rs_per_trip_plan": 1608.33757706782,
+        "Rs_per_trip_model": 250.93903783826792,
+        "Rs_per_trip_naive": 345.77518918403115,
+        "reduction_vs_plan_%": 84.39761394521678,
+        "reduction_vs_naive_%": 27.42711285027706
+      }
+    },
+    "interval_80pct_coverage": 0.7862118664424693,
+    "interval_coverage_before_calibration": 0.6449675714628873,
+    "conformal": {
+      "Q": 0.0779304588015921,
+      "n_cal": 4153,
+      "target_coverage": 0.8,
+      "val_coverage_raw": 0.6402600529737539,
+      "test_coverage_raw": 0.6449675714628873,
+      "test_coverage_calibrated": 0.7862118664424693,
+      "test_mean_width_raw": 129.58173330807574,
+      "test_mean_width_calibrated": 181.42494002843347
+    }
+  },
+  "caveats": [
+    "Data is from 2018 and covers about 3 weeks (trips created 2018-09-12 to 2018-10-03).",
+    "No weather or traffic data; the dataset has no cost fields (rates are sourced synthetic).",
+    "Hyper-parameters are fixed defaults (no search); one temporal split (final week as test).",
+    "pi_low / pi_high: LightGBM quantiles calibrated by split-conformal (CQR) on the 21-26 Sep validation slice (Q = 0.078 on the log scale); test coverage of the nominal 80% interval is 78.6% (raw quantiles 64.5%). Calibration used only 6 days, so coverage may not hold in other weeks.",
+    "route_schedule_uuid and centre codes are high-cardinality; levels with < 20 training trips are grouped into OTHER."
+  ]
+}

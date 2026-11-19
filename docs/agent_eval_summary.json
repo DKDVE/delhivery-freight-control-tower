@@ -1,0 +1,55 @@
+{
+  "model_pinned": "gpt-oss-120b",
+  "rate_limit_retries_total": 2,
+  "pacing": "20s between runs, 70s wait and retry after an LLM-unavailable fallback (free-tier 429), max 4 tries",
+  "ask_15_questions_all": {
+    "runs": 15,
+    "runs_with_llm_text_blocked": 2,
+    "share_blocked": 0.133,
+    "event_counts": {
+      "action_refused": 2,
+      "answer_without_slots": 1,
+      "unknown_placeholder": 1
+    },
+    "runs_where_llm_typed_a_number": 1,
+    "models_seen": [
+      "groq/openai/gpt-oss-120b",
+      "rules (pre-filter)"
+    ]
+  },
+  "ask_questions_that_reached_the_llm": {
+    "runs": 13,
+    "runs_with_llm_text_blocked": 2,
+    "share_blocked": 0.154,
+    "event_counts": {
+      "answer_without_slots": 1,
+      "unknown_placeholder": 1
+    },
+    "runs_where_llm_typed_a_number": 1,
+    "models_seen": [
+      "groq/openai/gpt-oss-120b"
+    ]
+  },
+  "booking_and_trip_sample": {
+    "booking": {
+      "runs": 8,
+      "runs_with_llm_text_blocked": 0,
+      "share_blocked": 0.0,
+      "event_counts": {},
+      "runs_where_llm_typed_a_number": 0,
+      "models_seen": [
+        "groq/openai/gpt-oss-120b"
+      ]
+    },
+    "trip": {
+      "runs": 4,
+      "runs_with_llm_text_blocked": 0,
+      "share_blocked": 0.0,
+      "event_counts": {},
+      "runs_where_llm_typed_a_number": 0,
+      "models_seen": [
+        "groq/openai/gpt-oss-120b"
+      ]
+    }
+  }
+}
